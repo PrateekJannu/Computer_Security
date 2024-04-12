@@ -1,0 +1,74 @@
+SHELL=/bin/sh
+PATH=/usr/local/lib/mh:$PATH
+MAILDIR=$HOME/Mail
+LOGFILE=$HOME/Mail/logfile
+SENDMAIL=/usr/sbin/sendmail
+#VERBOSE=1
+VERBOSE=0
+EOL="
+"
+LOG="$EOL$EOL$EOL"
+LOG="New message log:$EOL"
+LOG=`perl GET_MESSAGE_INDEX`
+LOG="$EOL"
+
+##^From.*>\, \<
+##
+##^: Means the pattern to the beginning of a line.
+##
+##From: Matches the literal characters "From".
+##
+##.*: Matches any character except newline zero or more times. This allows for flexibility in matching any sequence of characters after "From".
+##
+##>\, \<: Matches the characters >, < exactly. The backslashes \ are used to escape the special characters > and <.
+
+
+:0 :
+* ^From.*>\,\<
+recipe_1
+
+##This recipe is to examine the subject lines of incoming email messages. If any subject line contains any of the specified keywords the email is processed to file recipe_2.
+##
+##* ^Subject.*(degree|watches|medications|diploma|Diploma|pills|Pills|plills|Ppjills|Magento): 
+##
+##*: Indicates the beginning of a condition.
+##^Subject.*: Matches lines in the email's subject header that start with "Subject" followed by any number of characters
+##(degree|watches|medications|diploma|Diploma|pills|Pills|plills|Ppjills|Magento): It matches any of the listed keywords in the subject line.
+
+
+:0 :
+* ^Subject.*(degree|watches|medications|diploma|Diploma|pills|Pills|plills|Ppjills|Magento)
+recipe_2
+
+##B: This flag specifies that the condition line type is based on the body of the email. 
+##
+##^*: This part indicates that the condition should be checked against the body of the email message, for any number of characters until the condition is met.
+##(Ruby|ruby| GEMSTONE|MINING): These are the casino/gambling and mining companies we are trying to avoid.
+
+
+:0 B:
+* ^*(Ruby|ruby|GEMSTONE|MINING)
+recipe_3
+
+## HB: Flags indicating that the condition line type is based on the body of the email.
+## 
+## * ^Content-Type: multipart/alternative: Checks if the MIME header "Content-Type" specifies that the email contains a multipart message with alternative This condition targets emails that have the "multipart/alternative" MIME type, which typically includes both plain text and HTML versions of the email content.
+## 
+## * ^Content-Type: text/html;( charset = "utf-8"| charset=utf-8|$): Checks if the MIME header "Content-Type" specifies that the email contains an HTML version with a specified character set of UTF-8. This condition targets emails that have a "text/html" MIME type with a charset of UTF-8.
+## 
+## * ^Content-Type: text/plain;( charset = "utf-8"| charset=utf-8|$): Checks if the MIME header "Content-Type" specifies that the email contains a plain text version with a specified character set of UTF-8. This condition targets emails that have a "text/plain" MIME type with a charset of UTF-8.
+## 
+## 
+## 
+## 
+## 
+## * ^ Content-Transfer-Encoding: (7bit|8bit|quoted-printable): Checks if the MIME header "Content-Transfer-Encoding" specifies that the email content is encoded using one of the specified methods (quoted-printable, 8bit, or 7bit). This condition targets emails that have a specified Content-Transfer-Encoding method.
+
+
+
+:0 HB:
+* ^Content-Type: multipart/alternative
+* ^Content-Type: text/html;( charset = "utf-8"| charset=utf-8|$)
+* ^Content-Type: text/plain;( charset = "utf-8"| charset=utf-8|$)
+* ^Content-Transfer-Encoding: (7bit|8bit|quoted-printable)
+recipe_4
