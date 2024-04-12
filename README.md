@@ -5,7 +5,7 @@ Repository for the Security Protocols for Fall 2024 at Purdue University, West L
 ## Intro
 hi I am taking a Computer Security ECE404 class at Purdue under professor Kak's guide. The class is based on material of [ECE 404](https://engineering.purdue.edu/kak/compsec/Lectures.html). We are going to write multiple security protocols 
 
-Note, this is my last course of my undergradute age, not any more :)
+Note, this is my last course of my undergradute age, not any more :) onto PhD 
 
 ## Development Logs
 
