@@ -1,4 +1,4 @@
-# Computer Security 
+# Computer Security Fall 2024 
 
 ECE404 Purdue University, West Lafayette
 Repository for the Security Protocols for Fall 2024 at Purdue University, West Lafayette
